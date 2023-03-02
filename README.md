@@ -9,7 +9,7 @@ Requirements:
 
 The code and step-by-step description is in the R Markdown file workshop1.Rmd
 
-The data is in data_clean.Rds
+The example data is data_clean.Rds. Download link: https://drive.google.com/file/d/16ixV4VFsQs0mV2aJnVy1CfS45285ANa8/view?usp=share_link
 
 Rendering of the workshop1.Rmd is in the HTML file: workshop1.html
 
