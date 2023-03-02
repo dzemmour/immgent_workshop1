@@ -1,0 +1,76 @@
+---
+title: "ImmGenT - data workshop 1"
+output: html_document
+date: "2023-02-23"
+editor_options: 
+  chunk_output_type: console
+---
+
+Load libraries and set the working diretory where the dataset_clean.Rds data is.
+```{r}
+library(Seurat)
+library(cowplot)
+
+setwd("~/google_drive/ImmgenT/workshop1/")
+```
+
+```{r}
+sc <- readRDS('dataset_clean.Rds')
+```
+
+Structure of sc (Seurat Object)
+* Contains RNA data and ADT data (each a seperate assay)
+* Contains UMAP coordinates for both RNA and Protein Data
+* Contains following metadata for each cell: sample of origin, RNA cluster #, Protein cluster #, Hashtag identity
+
+Similar to Rosetta, we can generate umaps for each of our metadata on both RNA and Protein level
+
+Example: Plot UMAP RNA + color by sample
+```{r}
+Idents(sc) <- "sample_name"
+DimPlot(sc,reduction = "umap_rna")
+```
+
+Example 2: Plot UMAP Protein + color by sample
+
+```{r}
+Idents(sc) <- "sample_name"
+DimPlot(sc,reduction = "umap_adt")
+```
+
+
+Plot Cd4 RNA
+```{r}
+DefaultAssay(object = sc) <- "RNA"
+FeaturePlot(sc, features = 'Cd4', reduction = "umap_rna")
+```
+
+Plot CD4 protein
+```{r}
+DefaultAssay(object = sc) <- "ADT"
+FeaturePlot(sc, features = 'CD4', reduction = "umap_adt")
+```
+
+
+Plot Cd4 RNA x samples
+```{r, fig.width = 20, fig.height = 30}
+DefaultAssay(object = sc) <- "RNA"
+p <- FeaturePlot(sc, features = 'Cd4', reduction = "umap_rna", split.by = "sample_name", combine = F)
+plot_grid(plotlist = p, ncol=2, label_size = 14)
+```
+
+
+Plot CD4 protein x samples 
+```{r, fig.width = 20, fig.height = 30}
+DefaultAssay(object = sc) <- "ADT"
+p2 <- FeaturePlot(sc, features = 'CD4', reduction = "umap_adt", split.by = "sample_name", combine = F)
+plot_grid(plotlist = p2, ncol=2, label_size = 14)
+```
+
+
+
+
+
+
+
+
